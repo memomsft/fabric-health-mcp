@@ -14,6 +14,7 @@ from mcp.server.fastmcp import FastMCP
 from fabric_health_mcp.tools.capacity import list_capacities, get_capacity_health
 from fabric_health_mcp.tools.workspaces import list_workspaces, get_workspace_score
 from fabric_health_mcp.tools.summary import get_tenant_summary, generate_health_report
+from fabric_health_mcp.tools.items import get_workspace_items, get_workspace_items_batch, get_tenant_items_overview
 
 mcp = FastMCP(
     "fabric-health-mcp",
@@ -91,6 +92,42 @@ async def generate_tenant_health_report() -> str:
     Guarda el archivo health_report_FECHA.md en la carpeta reports/.
     """
     return await generate_health_report()
+
+
+# ── Items ─────────────────────────────────────────────────────────────────────
+
+@mcp.tool()
+async def list_workspace_items(workspace_id: str) -> str:
+    """
+    Lista todos los items de un workspace agrupados por tipo.
+    Detecta items de datos sin descripción (riesgo de governance).
+
+    Args:
+        workspace_id: ID del workspace (obtener con list_all_workspaces)
+    """
+    return await get_workspace_items(workspace_id)
+
+
+@mcp.tool()
+async def analyze_workspaces_items_batch(workspace_ids: list[str]) -> str:
+    """
+    Analiza items de múltiples workspaces en paralelo.
+    Devuelve ranking comparativo por cantidad y tipo de items.
+
+    Args:
+        workspace_ids: Lista de IDs de workspaces a analizar
+    """
+    return await get_workspace_items_batch(workspace_ids)
+
+
+@mcp.tool()
+async def get_tenant_items_summary() -> str:
+    """
+    Resumen de todos los items del tenant agrupados por tipo.
+    Muestra distribución de Lakehouses, Pipelines, Reports, etc.
+    Incluye insights sobre madurez del uso de Fabric.
+    """
+    return await get_tenant_items_overview()
 
 
 # ── Entry point ───────────────────────────────────────────────────────────────
