@@ -1,0 +1,13 @@
+{
+  "_instrucciones": "Agrega el bloque 'fabric-health' dentro de tu 'servers' existente en mcp.json",
+  "_vscode_path_windows": "%APPDATA%\\Code\\User\\mcp.json",
+  "_vscode_path_mac": "~/Library/Application Support/Code/User/mcp.json",
+  "_nota_windows_conda": "Si usas Anaconda, reemplaza 'python' con el path completo: C:\\Users\\TU_USUARIO\\AppData\\Local\\anaconda3\\python.exe",
+
+  "servers": {
+    "fabric-health": {
+      "command": "python",
+      "args": ["-m", "fabric_health_mcp.server"]
+    }
+  }
+}

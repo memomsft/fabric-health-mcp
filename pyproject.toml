@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fabric-health-mcp"
+version = "0.1.0"
+description = "MCP server para health assessment de Microsoft Fabric"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+keywords = ["microsoft-fabric", "mcp", "health", "assessment", "azure"]
+dependencies = [
+    "mcp>=1.0.0",
+    "azure-identity>=1.17.0",
+    "httpx>=0.27.0",
+    "jinja2>=3.1.0",
+]
+
+[project.scripts]
+fabric-health-mcp = "fabric_health_mcp.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fabric_health_mcp"]

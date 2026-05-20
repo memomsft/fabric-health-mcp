@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.installed.cfg
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Secrets & credentials — NUNCA subir al repo
+.env
+*.env
+.env.local
+.env.*.local
+credentials.json
+token.json
+*.pem
+*.key
+*.pfx
+*.p12
+
+# Reportes generados — son output, no source
+reports/
+*.md.report
+health_report_*.md
+
+# IDEs
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs
+*.log
+logs/
