@@ -82,6 +82,7 @@ Agrega en VS Code (`Ctrl+Shift+P → MCP: Open User Configuration`):
 {
   "servers": {
     "fabric-health": {
+      "type": "stdio",
       "command": "python",
       "args": ["-m", "fabric_health_mcp.server"]
     }
