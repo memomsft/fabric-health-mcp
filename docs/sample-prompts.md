@@ -1,17 +1,23 @@
-# Prompts de Ejemplo
+# Prompts de Ejemplo — fabric-health-mcp
 
-Todos los prompts deben ejecutarse en **Copilot Chat modo Agent** en VS Code.
+Prompts validados contra tenants reales. Ejecutar en **Copilot Chat modo Agent** en VS Code.
+
+> **Tip:** Si tienes múltiples MCPs conectados, abre el proyecto en VS Code desde la carpeta
+> `fabric-health-mcp` para que Copilot priorice el servidor correcto.
 
 ---
 
-## Assessment completo (recomendado para empezar)
+## Assessment completo
 
 ```
-Genera un resumen de salud de mi tenant de Fabric
+Genera un reporte ejecutivo de salud de mi tenant de Fabric.
+Quiero saber: estado de mis capacidades, qué workspaces están en riesgo,
+qué items no están gobernados, y las 3 acciones más urgentes que debería tomar hoy.
 ```
 
 ```
-Genera el reporte completo de salud del tenant y guárdalo como Markdown
+Actúa como consultor de Microsoft Fabric.
+Analiza mi tenant y dame un plan de acción priorizado para las próximas 2 semanas.
 ```
 
 ---
@@ -19,15 +25,11 @@ Genera el reporte completo de salud del tenant y guárdalo como Markdown
 ## Capacidades
 
 ```
-Lista todas las capacidades de Fabric de mi tenant
+¿Cuál es el estado de salud de mis capacidades de Fabric?
 ```
 
 ```
-Analiza la salud de la capacidad con ID [capacity_id]
-```
-
-```
-¿Alguna de mis capacidades está en estado crítico o pausado?
+¿Alguna de mis capacidades está en riesgo o mal configurada?
 ```
 
 ```
@@ -39,24 +41,55 @@ Analiza la salud de la capacidad con ID [capacity_id]
 ## Workspaces
 
 ```
+¿Hay workspaces huérfanos o sin usuarios asignados en mi tenant?
+```
+
+```
 ¿Cuántos workspaces no tienen capacidad de Fabric asignada?
 ```
 
 ```
-Evalúa el workspace con ID [workspace_id]
-```
-
-```
-¿Hay workspaces huérfanos sin usuarios asignados que podría eliminar?
+Evalúa el governance del workspace [nombre o ID]
 ```
 
 ---
 
-## Flujo de demo para cliente
+## Items y Governance
 
 ```
-1. "Dame un resumen ejecutivo del tenant de Fabric"
-2. "¿Cuáles son los findings más críticos?"
-3. "Analiza en detalle la capacidad [nombre]"
-4. "Genera el reporte final en Markdown"
+¿Cuántos items de Fabric no tienen descripción y cuáles son los más críticos para documentar primero?
 ```
+
+```
+¿Qué workspaces de mi tenant tienen peor governance de items?
+```
+
+```
+¿Qué tipo de workloads está usando más mi tenant — datos, BI o AI?
+```
+
+```
+¿Qué items de tipo DataAgent existen y en qué workspaces están?
+```
+
+---
+
+## Reporte final
+
+```
+Genera el reporte completo de salud del tenant y guárdalo como Markdown
+```
+
+---
+
+## Hallazgos reales (validados)
+
+Estos prompts han devuelto insights reales en ambientes de prueba:
+
+| Prompt | Insight obtenido |
+|--------|-----------------|
+| Items sin documentar | Detecta % de items sin descripción por workspace |
+| Workloads más usados | Identifica si el tenant es data-heavy, BI-heavy o AI-heavy |
+| Workspaces huérfanos | Encuentra workspaces sin usuarios asignados |
+| Estado de capacidades | Detecta capacidades sin admins asignados |
+| Overview de items | 63 items en 6 workspaces — Lakehouses dominante |

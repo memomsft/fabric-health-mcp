@@ -2,24 +2,31 @@
 
 ## [0.1.0] — 2026-05-20
 
-### Primera versión pública
+### Primera versión — Infraestructura, Governance e Items
 
-**Tools incluidas:**
-- `list_all_capacities` — inventario de capacidades del tenant
-- `analyze_capacity_health` — health score de una capacidad (0-100)
-- `list_all_workspaces` — inventario de workspaces con flags de riesgo
-- `analyze_workspace_score` — governance score de un workspace (0-100)
+**Tools incluidas (9):**
+- `list_all_capacities` — inventario de capacidades con admins via Power BI Admin API
+- `analyze_capacity_health` — health score (0-100) de una capacidad
+- `list_all_workspaces` — inventario con flags de riesgo
+- `analyze_workspace_score` — governance score (0-100) de un workspace
+- `list_workspace_items` — items de un workspace con detección de governance gaps
+- `analyze_workspaces_items_batch` — comparativo de items entre workspaces
+- `get_tenant_items_summary` — overview de items del tenant por tipo
 - `get_full_tenant_summary` — resumen ejecutivo del tenant
-- `generate_tenant_health_report` — genera reporte Markdown
+- `generate_tenant_health_report` — reporte Markdown completo
 
-**Fixes conocidos:**
-- Auth: `ManagedIdentityCredential` excluido explícitamente (WinError 5 en Windows local)
-- API: SKU parseado como string o objeto según respuesta de la API
+**Hallazgos de API (validados contra tenant real):**
+- `GET /v1/capacities/{id}` no está soportado → se filtra desde la lista completa
+- `GET /v1/admin/workspaces` devuelve vacío → usar `GET /v1/workspaces`
+- Admins de capacidad no expuestos en Fabric API → usar Power BI Admin API `/admin/capacities`
+- Campo `sku` puede ser string `"F8"` u objeto `{"name": "F8"}` → normalizado con `isinstance`
+- Tipos de workspace personal: `"Personal"` y `"PersonalGroup"` (ambos)
+- `ManagedIdentityCredential` lanza WinError 5 en Windows local → excluido, usar `AzureCliCredential`
 
-**Limitaciones conocidas:**
-- CU utilization en tiempo real no disponible vía REST API
-- Activity Events API (adopción) pendiente para v0.2
-- Governance/Purview score pendiente para v0.3
+**Auth:**
+- `ChainedTokenCredential(AzureCliCredential, VisualStudioCodeCredential)`
+- Fabric API scope: `https://api.fabric.microsoft.com/.default`
+- Power BI API scope: `https://analysis.windows.net/powerbi/api/.default`
 
 ---
 
@@ -32,11 +39,10 @@
 
 ### [0.3.0] — Adopción
 - Items sin acceso en 30/60/90 días (Activity Events API)
-- Workspaces con baja actividad
 - Score de adopción por workspace
 
 ### [0.4.0] — Maturity Score
-- % items con sensitivity label
-- % items endorsed
+- Sensitivity labels coverage
+- Endorsement rate (Promoted/Certified)
 - Lineage coverage
-- Score de madurez consolidado por workspace y tenant
+- Score de madurez consolidado por workspace

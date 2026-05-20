@@ -1,4 +1,4 @@
-# Guía de Setup
+# Guía de Setup — fabric-health-mcp
 
 ## Requisitos previos
 
@@ -6,7 +6,7 @@
 |-----------|---------------|-----------|
 | Python | 3.10+ | `python --version` |
 | Azure CLI | Cualquiera reciente | `az --version` |
-| Rol en Fabric | Fabric Administrator | Portal de Admin de Fabric |
+| Rol en Fabric | Fabric Administrator | Portal Admin de Fabric |
 | VS Code | Cualquiera reciente | Con extensión GitHub Copilot |
 
 ---
@@ -16,7 +16,7 @@
 ### 1. Clonar el repositorio
 
 ```powershell
-git clone https://github.com/TU_ORG/fabric-health-mcp
+git clone https://github.com/memomsft/fabric-health-mcp
 cd fabric-health-mcp
 ```
 
@@ -26,15 +26,14 @@ cd fabric-health-mcp
 pip install -e .
 ```
 
-> **Nota importante en Windows con Anaconda/Conda:**  
+> **Importante con Anaconda/Conda:**  
 > Si tienes múltiples versiones de Python, verifica cuál usa pip:
 > ```powershell
 > conda run where python
 > ```
-> Anota el path de Conda (ej. `C:\Users\TU_USUARIO\AppData\Local\anaconda3\python.exe`).
-> Lo necesitarás en el paso de configuración de VS Code.
+> Anota el path de Conda — lo necesitarás en el paso 4.
 
-### 3. Autenticación
+### 3. Autenticación (una sola vez)
 
 ```powershell
 az login
@@ -44,9 +43,8 @@ Se abre el browser. Inicia sesión con la cuenta que tenga rol **Fabric Administ
 
 ### 4. Configurar VS Code + GitHub Copilot
 
-Abre el Command Palette en VS Code:
 ```
-Ctrl + Shift + P → MCP: Open User Configuration
+Ctrl+Shift+P → MCP: Open User Configuration
 ```
 
 Agrega el servidor dentro de `"servers"`:
@@ -55,6 +53,7 @@ Agrega el servidor dentro de `"servers"`:
 {
   "servers": {
     "fabric-health": {
+      "type": "stdio",
       "command": "C:\\Users\\TU_USUARIO\\AppData\\Local\\anaconda3\\python.exe",
       "args": ["-m", "fabric_health_mcp.server"]
     }
@@ -62,50 +61,49 @@ Agrega el servidor dentro de `"servers"`:
 }
 ```
 
-> Si no usas Anaconda y Python está en el PATH, puedes usar simplemente `"python"` como command.
+> Si no usas Anaconda y Python está en el PATH, usa `"python"` como command.
 
-### 5. Verificar que el servidor está corriendo
+### 5. Abrir VS Code en la carpeta del proyecto
+
+```powershell
+code C:\ruta\a\fabric-health-mcp
+```
+
+Esto es importante — Copilot lee el archivo `.github/copilot-instructions.md` 
+y sabe que debe usar el servidor `fabric-health` para preguntas de Fabric.
+
+### 6. Verificar que el servidor está corriendo
 
 ```
-Ctrl + Shift + P → MCP: List Servers
+Ctrl+Shift+P → MCP: List Servers
 ```
 
-`fabric-health` debe aparecer en estado **Running**.
+`fabric-health` debe aparecer en estado **Running** con **9 tools**.
 
-### 6. Primer uso
+### 7. Primer uso
 
 En Copilot Chat (modo **Agent**):
 ```
-Genera un resumen de salud de mi tenant de Fabric
+¿Cuál es el estado de salud de mis capacidades de Fabric?
 ```
 
 ---
 
 ## macOS
 
-### 1. Clonar el repositorio
+### 1. Clonar e instalar
 
 ```bash
-git clone https://github.com/TU_ORG/fabric-health-mcp
+git clone https://github.com/memomsft/fabric-health-mcp
 cd fabric-health-mcp
-```
-
-### 2. Instalar dependencias
-
-```bash
 pip install -e .
-```
-
-### 3. Autenticación
-
-```bash
 az login
 ```
 
-### 4. Configurar VS Code + GitHub Copilot
+### 2. Configurar VS Code
 
 ```
-Cmd + Shift + P → MCP: Open User Configuration
+Cmd+Shift+P → MCP: Open User Configuration
 ```
 
 ```json
@@ -119,14 +117,10 @@ Cmd + Shift + P → MCP: Open User Configuration
 }
 ```
 
-> Si usas `pyenv` o Conda en Mac, usa el path completo:
+> Si usas pyenv o Conda en Mac:
 > ```bash
-> which python  # copia el output aquí
+> which python  # usa este path en el config
 > ```
-
-### 5. Verificar y usar
-
-Igual que en Windows — `MCP: List Servers` y luego Copilot Chat en modo Agent.
 
 ---
 
@@ -135,6 +129,16 @@ Igual que en Windows — `MCP: List Servers` y luego Copilot Chat en modo Agent.
 | Error | Causa | Solución |
 |-------|-------|----------|
 | `ModuleNotFoundError: fabric_health_mcp` | VS Code usa Python diferente al de `pip install` | Usa el path completo de Python en `mcp.json` |
-| `WinError 5 / ManagedIdentityCredential` | Versión vieja de `azure-identity` | `pip install --upgrade azure-identity` con el Python correcto |
-| `No se encontraron capacidades` | Cuenta sin rol Fabric Admin | Verifica permisos en el portal de Admin de Fabric |
-| Servidor en estado Error en VS Code | Ver logs: `MCP: List Servers → Show Output` | Revisar el traceback completo |
+| `WinError 5 / ManagedIdentityCredential` | Versión vieja de `azure-identity` | `C:\ruta\anaconda3\python.exe -m pip install --upgrade azure-identity` |
+| Servidor en estado Error | Ver logs en MCP: List Servers → Show Output | Revisar el traceback completo |
+| Copilot usa otro MCP | Múltiples MCPs conectados | Abre VS Code desde la carpeta del proyecto |
+| JSON inválido en mcp.json | Llave o coma faltante | Verifica que el JSON tiene todos los `}` cerrados |
+
+---
+
+## Notas de seguridad
+
+- El servidor corre **100% local** — ningún dato sale hacia servicios externos
+- Los reportes generados se guardan en `reports/` — excluidos del `.gitignore`
+- No se almacenan credenciales — usa tu sesión activa de `az login`
+- Ver [SECURITY.md](../SECURITY.md) para más detalles
