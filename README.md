@@ -29,8 +29,6 @@ zava-planning            8       2        25% 🟡
    para facilitar gobierno y transferencia de conocimiento.
 ```
 
-<!-- Agrega aquí un screenshot del assessment en acción -->
-
 ---
 
 ## ¿Qué evalúa?
@@ -104,6 +102,9 @@ Cada recurso recibe un score de **0 a 100** restando puntos por condiciones nega
 
 **Grades:** A (≥90) · B (≥75) · C (≥60) · D (≥40) · F (<40)
 
+> **Nota:** Estos pesos son una estimación razonable para identificar riesgos comunes.
+> No representan un estándar oficial de Microsoft — interprétalos como guía orientativa.
+
 ---
 
 ## Requisitos
@@ -173,7 +174,6 @@ En Copilot Chat modo **Agent**:
 Genera el reporte completo de salud del tenant
 ```
 
-<!-- Agrega aquí screenshots de los prompts en acción -->
 
 Ver más en [docs/sample-prompts.md](docs/sample-prompts.md).
 
