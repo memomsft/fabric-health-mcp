@@ -79,9 +79,9 @@ AI Client (VS Code + GitHub Copilot)
          │  MCP stdio
          ▼
 fabric-health-mcp  (Python — local)
-├── list_all_capacities / analyze_capacity_health
-├── list_all_workspaces / analyze_workspace_score  
-├── get_tenant_items_summary / list_workspace_items
+├── analyze_capacity_health
+├── analyze_workspace_score
+├── get_tenant_items_summary
 ├── analyze_workspaces_items_batch
 ├── get_full_tenant_summary
 └── generate_tenant_health_report
@@ -165,7 +165,7 @@ code .
 
 Verifica que el servidor está corriendo:
 ```
-Ctrl+Shift+P → MCP: List Servers → fabric-health: Running (9 tools)
+Ctrl+Shift+P → MCP: List Servers → fabric-health: Running (6 tools)
 ```
 
 ---
@@ -196,19 +196,18 @@ Ver más en [docs/sample-prompts.md](docs/sample-prompts.md).
 
 ---
 
-## Tools (9)
+## Tools (6)
 
 | Tool | Descripción |
 |------|-------------|
-| `list_all_capacities` | Inventario con SKU, estado y admins |
 | `analyze_capacity_health` | Health score (0-100) de una capacidad |
-| `list_all_workspaces` | Inventario con flags de riesgo |
 | `analyze_workspace_score` | Governance score (0-100) de un workspace |
-| `get_tenant_items_summary` | Overview de items por tipo y workload |
-| `list_workspace_items` | Items de un workspace con governance gaps |
-| `analyze_workspaces_items_batch` | Comparativo entre múltiples workspaces |
+| `get_tenant_items_summary` | Overview de governance de items del tenant |
+| `analyze_workspaces_items_batch` | Comparativo de governance entre workspaces |
 | `get_full_tenant_summary` | Resumen ejecutivo del tenant |
 | `generate_tenant_health_report` | Reporte Markdown completo |
+
+> Para listar workspaces, capacidades e items usa el [Fabric Core MCP oficial](https://learn.microsoft.com/en-us/rest/api/fabric/articles/mcp-servers/core-remote/get-started-core).
 
 Ver detalles en [docs/tools-reference.md](docs/tools-reference.md).
 
@@ -220,7 +219,7 @@ Ver detalles en [docs/tools-reference.md](docs/tools-reference.md).
 |-----|-----------|
 | [docs/setup.md](docs/setup.md) | Setup paso a paso Windows y Mac |
 | [docs/architecture.md](docs/architecture.md) | Arquitectura y cálculo de scores |
-| [docs/tools-reference.md](docs/tools-reference.md) | Referencia de las 9 tools |
+| [docs/tools-reference.md](docs/tools-reference.md) | Referencia de las 6 tools |
 | [docs/sample-prompts.md](docs/sample-prompts.md) | Prompts validados |
 | [SECURITY.md](SECURITY.md) | Qué hace y qué no hace con tus datos |
 | [CHANGELOG.md](CHANGELOG.md) | Historial de versiones |
