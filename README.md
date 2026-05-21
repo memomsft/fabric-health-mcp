@@ -29,8 +29,27 @@ zava-planning            8       2        25% 🟡
    para facilitar gobierno y transferencia de conocimiento.
 ```
 
+<!-- Agrega aquí un screenshot del assessment en acción -->
+
 ---
 
+
+---
+
+## ¿Cómo se diferencia del Fabric Core MCP oficial?
+
+Microsoft publicó el [Fabric Core MCP Server](https://learn.microsoft.com/en-us/rest/api/fabric/articles/mcp-servers/core-remote/get-started-core) oficial — un MCP que permite gestionar recursos de Fabric en lenguaje natural: crear workspaces, listar items, gestionar roles.
+
+Este proyecto es **complementario**, no competidor:
+
+| Fabric Core MCP (oficial) | fabric-health-mcp (este proyecto) |
+|---|---|
+| Gestiona recursos (CRUD) | Evalúa y puntúa recursos |
+| "Crea un workspace" | "¿Qué tan bien está configurado este workspace?" |
+| "Lista mis capacidades" | "¿Cuál de mis capacidades está en riesgo?" |
+| Orientado a developers | Orientado a admins y arquitectos |
+
+**Úsalos juntos:** el Core MCP para operar, este MCP para evaluar.
 ## ¿Qué evalúa?
 
 ### v0.1 — Infraestructura, Governance e Items
@@ -50,7 +69,6 @@ zava-planning            8       2        25% 🟡
 | v0.2 | **Data Freshness** | Pipelines fallidos, semantic models sin refresh |
 | v0.3 | **Adopción** | Items sin uso en 30/60/90 días (Activity Events API) |
 | v0.4 | **Maturity Score** | Labels, endorsement, lineage por workspace |
-| v0.5 | **Delta Lake Health** | Small files, OPTIMIZE, VACUUM, Z-ORDER  |
 
 ---
 
@@ -102,9 +120,6 @@ Cada recurso recibe un score de **0 a 100** restando puntos por condiciones nega
 | Sin usuarios (huérfano) | -15 |
 
 **Grades:** A (≥90) · B (≥75) · C (≥60) · D (≥40) · F (<40)
-
-> **Nota:** Estos pesos son una estimación razonable para identificar riesgos comunes.
-> No representan un estándar oficial de Microsoft — interprétalos como guía orientativa.
 
 ---
 
@@ -175,6 +190,7 @@ En Copilot Chat modo **Agent**:
 Genera el reporte completo de salud del tenant
 ```
 
+<!-- Agrega aquí screenshots de los prompts en acción -->
 
 Ver más en [docs/sample-prompts.md](docs/sample-prompts.md).
 

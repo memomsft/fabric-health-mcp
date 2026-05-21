@@ -11,41 +11,35 @@ Requisitos:
 """
 
 from mcp.server.fastmcp import FastMCP
-from fabric_health_mcp.tools.capacity import list_capacities, get_capacity_health
-from fabric_health_mcp.tools.workspaces import list_workspaces, get_workspace_score
+from fabric_health_mcp.tools.capacity import get_capacity_health
+from fabric_health_mcp.tools.workspaces import get_workspace_score
 from fabric_health_mcp.tools.summary import get_tenant_summary, generate_health_report
-from fabric_health_mcp.tools.items import get_workspace_items, get_workspace_items_batch, get_tenant_items_overview
+from fabric_health_mcp.tools.items import get_workspace_items_batch, get_tenant_items_overview
 
 mcp = FastMCP(
     "fabric-health-mcp",
     instructions=(
-        "Eres un experto en Microsoft Fabric. Usas estas tools para analizar "
-        "la salud, configuración y governance de ambientes Fabric. "
-        "Flujo recomendado: primero get_tenant_summary para una visión general, "
-        "luego herramientas específicas para profundizar. "
-        "Responde en español con recomendaciones concretas y accionables."
+        "Eres un experto en Microsoft Fabric especializado en health assessment. "
+        "Este servidor es complementario al Fabric Core MCP oficial de Microsoft — "
+        "mientras el Core MCP gestiona recursos, este MCP los evalúa y puntúa. "
+        "Flujo recomendado: primero get_full_tenant_summary para visión general, "
+        "luego tools específicas para profundizar en findings críticos. "
+        "Responde en español con recomendaciones concretas y accionables. "
+        "Para listar workspaces, capacidades o items usa el Fabric Core MCP oficial."
     )
 )
 
 # ── Capacidades ──────────────────────────────────────────────────────────────
 
 @mcp.tool()
-async def list_all_capacities() -> str:
-    """
-    Lista todas las capacidades de Fabric del tenant.
-    Muestra ID, nombre, SKU, CU máximos, estado y región.
-    """
-    return await list_capacities()
-
-
-@mcp.tool()
 async def analyze_capacity_health(capacity_id: str) -> str:
     """
     Health score (0-100) de una capacidad específica.
     Evalúa estado, SKU sizing y governance de administradores.
+    Usa list_capacities del Fabric Core MCP para obtener los IDs.
 
     Args:
-        capacity_id: ID de la capacidad (obtener con list_all_capacities)
+        capacity_id: ID de la capacidad
     """
     return await get_capacity_health(capacity_id)
 
@@ -53,23 +47,14 @@ async def analyze_capacity_health(capacity_id: str) -> str:
 # ── Workspaces ────────────────────────────────────────────────────────────────
 
 @mcp.tool()
-async def list_all_workspaces() -> str:
-    """
-    Inventario de todos los workspaces del tenant.
-    Identifica workspaces sin capacidad y workspaces personales.
-    Requiere rol Fabric Administrator.
-    """
-    return await list_workspaces()
-
-
-@mcp.tool()
 async def analyze_workspace_score(workspace_id: str) -> str:
     """
     Governance score (0-100) de un workspace específico.
     Evalúa roles, usuarios, capacidad asignada y estado.
+    Usa list_workspaces del Fabric Core MCP para obtener los IDs.
 
     Args:
-        workspace_id: ID del workspace (obtener con list_all_workspaces)
+        workspace_id: ID del workspace
     """
     return await get_workspace_score(workspace_id)
 
@@ -80,7 +65,7 @@ async def analyze_workspace_score(workspace_id: str) -> str:
 async def get_full_tenant_summary() -> str:
     """
     Resumen ejecutivo del tenant: capacidades, workspaces y findings críticos.
-    Punto de entrada recomendado para el health assessment completo.
+    Punto de entrada recomendado — agrega health scores de todo el tenant.
     """
     return await get_tenant_summary()
 
@@ -97,22 +82,11 @@ async def generate_tenant_health_report() -> str:
 # ── Items ─────────────────────────────────────────────────────────────────────
 
 @mcp.tool()
-async def list_workspace_items(workspace_id: str) -> str:
-    """
-    Lista todos los items de un workspace agrupados por tipo.
-    Detecta items de datos sin descripción (riesgo de governance).
-
-    Args:
-        workspace_id: ID del workspace (obtener con list_all_workspaces)
-    """
-    return await get_workspace_items(workspace_id)
-
-
-@mcp.tool()
 async def analyze_workspaces_items_batch(workspace_ids: list[str]) -> str:
     """
-    Analiza items de múltiples workspaces en paralelo.
-    Devuelve ranking comparativo por cantidad y tipo de items.
+    Analiza governance de items en múltiples workspaces en paralelo.
+    Detecta items sin descripción y compara governance entre workspaces.
+    Usa list_workspaces del Fabric Core MCP para obtener los IDs.
 
     Args:
         workspace_ids: Lista de IDs de workspaces a analizar
@@ -123,9 +97,9 @@ async def analyze_workspaces_items_batch(workspace_ids: list[str]) -> str:
 @mcp.tool()
 async def get_tenant_items_summary() -> str:
     """
-    Resumen de todos los items del tenant agrupados por tipo.
-    Muestra distribución de Lakehouses, Pipelines, Reports, etc.
-    Incluye insights sobre madurez del uso de Fabric.
+    Overview de governance de items del tenant.
+    Distribución por tipo, items sin descripción, insights de madurez.
+    Identifica si el tenant es data-heavy, BI-heavy o AI-heavy.
     """
     return await get_tenant_items_overview()
 
