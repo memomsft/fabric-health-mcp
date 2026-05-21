@@ -50,6 +50,7 @@ zava-planning            8       2        25% 🟡
 | v0.2 | **Data Freshness** | Pipelines fallidos, semantic models sin refresh |
 | v0.3 | **Adopción** | Items sin uso en 30/60/90 días (Activity Events API) |
 | v0.4 | **Maturity Score** | Labels, endorsement, lineage por workspace |
+| v0.5 | **Delta Lake Health** | Small files, OPTIMIZE, VACUUM, Z-ORDER  |
 
 ---
 

@@ -46,3 +46,9 @@
 - Endorsement rate (Promoted/Certified)
 - Lineage coverage
 - Score de madurez consolidado por workspace
+
+### [0.5.0] — Delta Lake Health
+- `analyze_lakehouse_health` — DESCRIBE DETAIL por tabla (small files, tamaño)
+- `get_delta_optimization_score` — tablas sin OPTIMIZE o VACUUM reciente
+- `get_tables_without_zordering` — tablas candidatas a Z-ORDER
+- Conecta via SQL Analytics Endpoint del Lakehouse
