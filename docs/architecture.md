@@ -72,6 +72,12 @@ El `get_full_tenant_summary` calcula el **estado general** basado en:
 - 🟡 **Advertencia** → score promedio < 75, o más de 5 workspaces sin capacidad
 - 🟢 **Saludable** → sin issues críticos y score promedio ≥ 75
 
+
+> **Nota:** Los pesos del health score no son un estándar oficial de Microsoft.
+> Fueron definidos con criterio razonable para identificar riesgos comunes en
+> ambientes Fabric. Son orientativos — interprétalos como una guía, no como
+> un benchmark certificado.
+
 ---
 
 ## Autenticación
